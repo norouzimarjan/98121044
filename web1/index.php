@@ -1,11 +1,18 @@
 <?php
 require_once('./functions.php');
-$connection = connect_to_mysql();
-$res = $connection->query("SHOW DATABASES;");
-while ($row = mysqli_fetch_assoc($res)) {
-    echo $row['Database'] . "\n";
+require_once('./MySQLDB.php');
+$db = new MySQLDB();
+require_once('./lessons.php');
+foreach($lessons as $lesson)
+{
+    $data = [
+        'title' => $lesson['title'],
+        'vahed' => $lesson['vahed'],
+        'term' => $lesson['term'],
+        'program' => json_encode($lesson['program']),
+    ];
+    $db->insert('lessons', $data);
 }
-dd($res);
 $number_of_hours = 4; 
 ?>
 <!DOCTYPE html>
